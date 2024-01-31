@@ -1,0 +1,23 @@
+version: "3"
+services:
+  api-wallet:
+    image: wallet
+    command: "./main"
+    restart: always
+    depends_on:
+      - db-wallet
+    environment:
+      - RDS_HOST=db-wallet
+      - RDS_USER=postgres
+      - RDS_PASSWORD=postgres
+      - SLOW_START=true
+    ports:
+      - 8080:8080
+
+  db-wallet:
+    image: postgres:14.2
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
